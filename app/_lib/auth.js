@@ -36,16 +36,24 @@ const authConfig = {
     },
 
     async session({ session }) {
-      if (!session?.user?.email) return session;
+      if (!session?.user?.email) {
+        console.warn("No session or session.user.email found");
+        return session;
+      }
 
       try {
         const account = await getAccount(session.user.email);
         if (account) {
-          session.user.accountId = account.id;
-          session.user.accountAvatar = account.avatar;
+          session.user.accountId = account.id ?? null;
+          session.user.accountAvatar = account.avatar ?? null;
+        } else {
+          session.user.accountId = null;
+          session.user.accountAvatar = null;
         }
       } catch (error) {
         console.error("Error during session callback:", error);
+        session.user.accountId = null;
+        session.user.accountAvatar = null;
       }
 
       return session;
