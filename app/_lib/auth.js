@@ -5,15 +5,14 @@ import { createAccount, getAccount } from "./data-service";
 const authConfig = {
   providers: [
     GoogleProvider({
-      clientId: process.env.AUTH_GOOGLE_ID!,
-      clientSecret: process.env.AUTH_GOOGLE_SECRET!,
+      clientId: process.env.AUTH_GOOGLE_ID,
+      clientSecret: process.env.AUTH_GOOGLE_SECRET,
     }),
   ],
   trustHost: true,
   secret: process.env.NEXTAUTH_SECRET,
 
   callbacks: {
-    // Used by middleware to authorize
     authorized({ auth }) {
       if (!auth || !auth.user || !auth.user.email) {
         console.warn("Unauthorized access: session missing or invalid");
@@ -22,7 +21,6 @@ const authConfig = {
       return true;
     },
 
-    // Called on sign-in
     async signIn({ user }) {
       if (!user || !user.email) {
         console.error("signIn callback: user or email is null");
@@ -31,9 +29,9 @@ const authConfig = {
 
       try {
         const acct = await getAccount(user.email);
-        const nameParts = user.name?.split(" ") ?? [];
-        const firstName = nameParts[0] ?? "";
-        const lastName = nameParts[1] ?? "";
+        const nameParts = user.name ? user.name.split(" ") : [];
+        const firstName = nameParts[0] || "";
+        const lastName = nameParts[1] || "";
 
         if (!acct) {
           await createAccount({
@@ -49,21 +47,22 @@ const authConfig = {
       }
     },
 
-    // Called on session retrieval
     async session({ session }) {
       if (!session || !session.user || !session.user.email) {
         console.warn("session callback: invalid session or missing email");
         return session;
       }
+
       try {
         const acct = await getAccount(session.user.email);
-        session.user.accountId = acct?.id ?? null;
-        session.user.accountAvatar = acct?.avatar ?? null;
+        session.user.accountId = acct ? acct.id : null;
+        session.user.accountAvatar = acct ? acct.avatar : null;
       } catch (err) {
         console.error("session callback error:", err);
-        session.user.accountId = session.user.accountId ?? null;
-        session.user.accountAvatar = session.user.accountAvatar ?? null;
+        session.user.accountId = session.user.accountId || null;
+        session.user.accountAvatar = session.user.accountAvatar || null;
       }
+
       return session;
     },
   },
