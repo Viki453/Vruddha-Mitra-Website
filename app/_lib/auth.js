@@ -9,34 +9,46 @@ const authConfig = {
       clientSecret: process.env.AUTH_GOOGLE_SECRET,
     }),
   ],
-  trustHost: true, // ✅ Add this line
+  trustHost: true,
+
   callbacks: {
-    authorized({ auth, request }) {
+    authorized({ auth }) {
+      // Defensive check to avoid null errors
       return !!auth?.user?.email;
     },
-    async signIn({ user, account, profile }) {
+
+    async signIn({ user }) {
       try {
         const existingAccount = await getAccount(user.email);
-        const firstName = user.name.split(" ").at(0);
-        const lastName = user.name.split(" ").at(1);
-        if (!existingAccount)
+        const [firstName, lastName = ""] = user.name.split(" ");
+        if (!existingAccount) {
           await createAccount({
             emailId: user.email,
-            firstName: firstName,
-            lastName: lastName,
+            firstName,
+            lastName,
           });
+        }
         return true;
-      } catch {
+      } catch (error) {
+        console.error("SignIn error:", error);
         return false;
       }
     },
-    async session({ session, user }) {
-      const account = await getAccount(session.user.email);
-      session.user.accountId = account.id;
-      session.user.accountAvatar = account.avatar;
+
+    async session({ session }) {
+      try {
+        const account = await getAccount(session.user.email);
+        if (account) {
+          session.user.accountId = account.id;
+          session.user.accountAvatar = account.avatar;
+        }
+      } catch (error) {
+        console.error("Session error:", error);
+      }
       return session;
     },
   },
+
   pages: {
     signIn: "/login",
   },
