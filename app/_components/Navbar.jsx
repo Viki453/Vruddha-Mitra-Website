@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { auth } from "../_lib/auth";
 import Image from "next/image";
-import icon from "/public/icon.png";
+import icon from "../icon.png";
 
 async function Navbar() {
   const session = await auth();
