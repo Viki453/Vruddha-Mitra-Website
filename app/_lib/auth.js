@@ -1,72 +1,41 @@
 import NextAuth from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
+import Google from "next-auth/providers/google";
 import { createAccount, getAccount } from "./data-service";
 
 const authConfig = {
   providers: [
-    GoogleProvider({
+    Google({
       clientId: process.env.AUTH_GOOGLE_ID,
       clientSecret: process.env.AUTH_GOOGLE_SECRET,
     }),
   ],
-  trustHost: true,
-  secret: process.env.NEXTAUTH_SECRET,
-
   callbacks: {
-    authorized({ auth }) {
-      if (!auth || !auth.user || !auth.user.email) {
-        console.warn("Unauthorized access: session missing or invalid");
-        return false;
-      }
-      return true;
+    authorized({ auth, request }) {
+      return !!auth?.user?.email;
     },
-
-    async signIn({ user }) {
-      if (!user || !user.email) {
-        console.error("signIn callback: user or email is null");
-        return false;
-      }
-
+    async signIn({ user, account, profile }) {
       try {
-        const acct = await getAccount(user.email);
-        const nameParts = user.name ? user.name.split(" ") : [];
-        const firstName = nameParts[0] || "";
-        const lastName = nameParts[1] || "";
-
-        if (!acct) {
+        const existingAccount = await getAccount(user.email);
+        const firstName = user.name.split(" ").at(0);
+        const lastName = user.name.split(" ").at(1);
+        if (!existingAccount)
           await createAccount({
             emailId: user.email,
-            firstName,
-            lastName,
+            firstName: firstName,
+            lastName: lastName,
           });
-        }
         return true;
-      } catch (err) {
-        console.error("signIn error:", err);
+      } catch {
         return false;
       }
     },
-
-    async session({ session }) {
-      if (!session || !session.user || !session.user.email) {
-        console.warn("session callback: invalid session or missing email");
-        return session;
-      }
-
-      try {
-        const acct = await getAccount(session.user.email);
-        session.user.accountId = acct ? acct.id : null;
-        session.user.accountAvatar = acct ? acct.avatar : null;
-      } catch (err) {
-        console.error("session callback error:", err);
-        session.user.accountId = session.user.accountId || null;
-        session.user.accountAvatar = session.user.accountAvatar || null;
-      }
-
+    async session({ session, user }) {
+      const account = await getAccount(session.user.email);
+      session.user.accountId = account.id;
+      session.user.accountAvatar = account.avatar;
       return session;
     },
   },
-
   pages: {
     signIn: "/login",
   },
