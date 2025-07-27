@@ -1,53 +1,38 @@
 import NextAuth from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
+import Google from "next-auth/providers/google";
 import { createAccount, getAccount } from "./data-service";
 
 const authConfig = {
-  trustHost: true,
   providers: [
-    GoogleProvider({
+    Google({
       clientId: process.env.AUTH_GOOGLE_ID,
       clientSecret: process.env.AUTH_GOOGLE_SECRET,
     }),
   ],
   callbacks: {
-    authorized({ auth }) {
+    authorized({ auth, request }) {
       return !!auth?.user?.email;
     },
-
-    async signIn({ user }) {
+    async signIn({ user, account, profile }) {
       try {
         const existingAccount = await getAccount(user.email);
-        const [firstName, lastName] = user.name?.split(" ") || ["", ""];
-
-        if (!existingAccount) {
+        const firstName = user.name.split(" ").at(0);
+        const lastName = user.name.split(" ").at(1);
+        if (!existingAccount)
           await createAccount({
             emailId: user.email,
-            firstName,
-            lastName,
+            firstName: firstName,
+            lastName: lastName,
           });
-        }
-
         return true;
-      } catch (error) {
-        console.error("Error in signIn callback:", error);
+      } catch {
         return false;
       }
     },
-
-    async session({ session }) {
-      if (!session?.user?.email) return session;
-
-      try {
-        const account = await getAccount(session.user.email);
-        if (account) {
-          session.user.accountId = account.id;
-          session.user.accountAvatar = account.avatar;
-        }
-      } catch (error) {
-        console.error("Error in session callback:", error);
-      }
-
+    async session({ session, user }) {
+      const account = await getAccount(session.user.email);
+      session.user.accountId = account.id;
+      session.user.accountAvatar = account.avatar;
       return session;
     },
   },
