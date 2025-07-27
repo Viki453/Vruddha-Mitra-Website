@@ -1,11 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    remotePatterns: [
-      new URL(
-        "https://hsgefnzqzmubkazvxyqw.supabase.co/storage/v1/object/public/**"
-      ),
-    ],
+    remotePatterns: [new URL(process.env.SUPABASE_STORAGE_URL)],
   },
   experimental: {
     serverActions: {
