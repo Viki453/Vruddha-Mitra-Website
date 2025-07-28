@@ -17,8 +17,8 @@ export default function Layout({ children }) {
     <div className="flex min-h-screen w-full relative">
       <div
         className={`fixed inset-y-0 left-0 z-40 w-64 transform transition-transform duration-200 ease-in-out bg-base-200 p-4 mt-10
-        ${isOpen ? "translate-x-0" : "-translate-x-full"} 
-        lg:relative lg:translate-x-0`}
+          ${isOpen ? "translate-x-0" : "-translate-x-full"} 
+          lg:relative lg:translate-x-0`}
       >
         <Sidebar />
       </div>
