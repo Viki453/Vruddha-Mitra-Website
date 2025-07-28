@@ -3,7 +3,6 @@ import Google from "next-auth/providers/google";
 import { createAccount, getAccount } from "./data-service";
 
 const authConfig = {
-  trustHost: true,
   providers: [
     Google({
       clientId: process.env.AUTH_GOOGLE_ID,
