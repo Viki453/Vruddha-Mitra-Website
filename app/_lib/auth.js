@@ -11,9 +11,19 @@ const authConfig = {
   ],
   callbacks: {
     authorized({ auth, request }) {
-      return !!auth?.user?.email;
+      const url = request.nextUrl;
+
+      if (
+        url.pathname.startsWith("/favicon") ||
+        url.pathname.startsWith("/_next")
+      ) {
+        return true;
+      }
+
+      return !!auth?.user;
     },
-    async signIn({ user, account, profile }) {
+
+    async signIn({ user }) {
       try {
         const existingAccount = await getAccount(user.email);
         const firstName = user.name.split(" ").at(0);
@@ -29,7 +39,7 @@ const authConfig = {
         return false;
       }
     },
-    async session({ session, user }) {
+    async session({ session }) {
       const account = await getAccount(session.user.email);
       session.user.accountId = account.id;
       session.user.accountAvatar = account.avatar;
