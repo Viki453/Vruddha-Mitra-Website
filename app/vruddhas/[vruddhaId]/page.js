@@ -82,9 +82,6 @@ async function Page({ params }) {
           </div>
 
           <div className="text-base">
-            <strong>Birth Date:</strong> {vData.birthDate || "Not Provided"}
-          </div>
-          <div className="text-base">
             <strong>About Me:</strong>{" "}
             {vData.description || "A unique soul with a special story."}
           </div>
