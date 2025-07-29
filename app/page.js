@@ -3,7 +3,6 @@ import { Fleur_De_Leah } from "next/font/google";
 import Image from "next/image";
 import LandingImg1 from "../public/LandingImg1.jpg";
 import LandingImg2 from "../public/LandingImg2.jpg";
-
 import {
   HiOutlineCurrencyDollar,
   HiOutlineHandThumbUp,
@@ -52,76 +51,76 @@ const features = [
 ];
 
 function Page() {
-  const year = new Date().getFullYear();
-
   return (
-    <div className=" p-18">
+    <div className="px-4 sm:px-6 lg:px-12 py-10 space-y-20">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center max-w-screen-xl mx-auto">
-        <div className="flex flex-col items-center md:items-start text-left mt-5">
+        <div className="flex flex-col items-center md:items-start text-center md:text-left">
           <h1
-            className={`text-8xl md:text-[5rem] leading-tight font-extrabold ${FleurDeLeah.className}`}
+            className={`text-5xl sm:text-6xl md:text-[4.5rem] font-extrabold leading-tight ${FleurDeLeah.className}`}
           >
-            Hi! We&apos;re Vruddha Mitra.
+            Hi! <br />
+            We&apos;re Vruddha Mitra.
           </h1>
-          <p className="text-xl md:text-2xl mt-4">
+          <p className="text-lg sm:text-xl mt-4">
             We all need a pal sometimes. That&apos;s why VruddhaMitra&apos;s
-            here. VruddhaMitra helps health plans and employers connect members
-            and their families to real people for help with companion care,
-            everyday tasks, transportation, and more. It&apos;s vital human
-            connection, right to the front door.
+            here. We connect members and families to real people for companion
+            care, daily tasks, transport, and more. It&apos;s human connection,
+            delivered.
           </p>
         </div>
 
         <div className="flex justify-center">
-          <div className="h-[500px] w-[400px] overflow-hidden rounded-[50px] bg-white">
+          <div className="w-full max-w-[400px] h-[400px] sm:h-[500px] overflow-hidden rounded-[30px] bg-white shadow-lg">
             <Image
               src={LandingImg1}
               alt="Helping elders"
-              className="h-full w-full object-cover rounded-[50px] shadow-lg"
+              className="w-full h-full object-cover rounded-[30px]"
+              quality={60}
+              placeholder="blur"
             />
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 px-10 py-20 max-w-screen-xl mx-auto">
-        <div className="row-span-full flex justify-center">
-          <div>
-            <h1 className="text-4xl font-bold mb-4">Mitra Care</h1>
-            <p className="text-xl">
-              Vruddha Mitra provide vital social support and companion care to
-              strengthen families, help older adults remain connected, and
-              support diverse communities—providing win-win benefits for all.
-            </p>
-          </div>
+      <div className="max-w-screen-xl mx-auto px-2 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold mb-2">Mitra Care</h2>
+          <p className="text-lg text-gray-700 max-w-2xl mx-auto">
+            Vruddha Mitra provides vital support and companion care to
+            strengthen families, help elders stay connected, and support diverse
+            communities.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-[30px] text-center">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map(({ title, text, icon: Icon }, idx) => (
-            <div key={idx} className="flex flex-col items-center gap-3 p-4  ">
-              <Icon className="h-10 w-10 " />
-              <h3 className="text-lg font-semibold">{title}</h3>
+            <div
+              key={idx}
+              className="flex flex-col items-center text-center p-6 border rounded-xl bg-base-100 shadow-sm"
+            >
+              <Icon className="h-10 w-10 text-accent mb-4" />
+              <h3 className="text-lg font-semibold mb-2">{title}</h3>
               <p className="text-sm text-gray-600">{text}</p>
             </div>
           ))}
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 px-10 py-20 max-w-screen-xl mx-auto">
-        <div className="flex flex-col gap-6">
-          <h1 className="text-4xl font-bold">How it works</h1>
-          <p>
-            Available nationwide, in-person or by phone, Mitras offer a hand to
-            help, a shoulder to lean on, and an ear to listen.
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center max-w-screen-xl mx-auto">
+        <div className="flex flex-col gap-6 text-left">
+          <h2 className="text-4xl font-bold">How it works</h2>
+          <p className="text-lg text-gray-700">
+            Available nationwide, Mitras offer hands-on help and heartfelt
+            support— in-person or virtually.
           </p>
-          <ol className="list-decimal ml-5 space-y-4">
+          <ol className="list-decimal ml-5 space-y-4 text-base text-gray-600">
             <li>
               <h3 className="font-semibold text-lg">
                 Sign up through your participating plan.
               </h3>
               <p>
-                Flexible enrollment processes help members take advantage of
-                their Medicare Advantage, Medicaid, or employer-provided
-                benefit.
+                Easy enrollment for Medicare, Medicaid, or employer-covered
+                members.
               </p>
             </li>
             <li>
@@ -129,8 +128,7 @@ function Page() {
                 Schedule a visit with a Mitra.
               </h3>
               <p>
-                Health plan members can schedule appointments by their
-                computers. Employees have the flexibility of web application.
+                Convenient scheduling via our web app for members and employees.
               </p>
             </li>
             <li>
@@ -138,21 +136,21 @@ function Page() {
                 Enjoy your time and tell us how we did.
               </h3>
               <p>
-                Members and loved ones receive support from Mitras for companion
-                care, help with children and pets, transportation, errands, and
-                more. Post-visit surveys help us make sure it&apos;s the perfect
-                Mitra every time!
+                Get real support for daily tasks, care, errands and more. Share
+                feedback for continued quality.
               </p>
             </li>
           </ol>
         </div>
 
         <div className="flex justify-center">
-          <div className="h-[500px] w-[400px] overflow-hidden rounded-[50px] bg-white">
+          <div className="w-full max-w-[400px] h-[400px] sm:h-[500px] overflow-hidden rounded-[30px] bg-white shadow-lg">
             <Image
               src={LandingImg2}
               alt="Mitra working"
-              className="h-full w-full object-cover rounded-[50px] shadow-lg"
+              className="w-full h-full object-cover rounded-[30px]"
+              quality={60}
+              placeholder="blur"
             />
           </div>
         </div>

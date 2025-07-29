@@ -2,15 +2,17 @@ import BookingCard from "../../_components/BookingCard";
 import { auth } from "../../_lib/auth";
 import { getBookingsById } from "../../_lib/data-service";
 
-async function page() {
+export default async function Page() {
   const session = await auth();
   const bookings = await getBookingsById(session.user.accountId);
-  console.log(bookings);
+
   return (
     <>
-      <h1 className="text-5xl font-semibold">Reservations</h1>
-      <div className="bg-base-200 p-10 m-10  h-full rounded-md">
-        <ul>
+      <h1 className="text-3xl sm:text-5xl font-semibold px-4 pt-4">
+        Reservations
+      </h1>
+      <div className="bg-base-200 rounded-md m-4 sm:m-10 p-4 sm:p-10">
+        <ul className="space-y-4">
           {bookings.map((booking) => (
             <li key={booking.id}>
               <BookingCard bookingData={booking} />
@@ -21,5 +23,3 @@ async function page() {
     </>
   );
 }
-
-export default page;

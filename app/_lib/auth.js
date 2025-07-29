@@ -2,9 +2,6 @@ import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import { SupabaseAdapter } from "@auth/supabase-adapter";
 import { createAccount, getAccount } from "./data-service";
-// import dotenv from "dotenv";
-// dotenv.config();
-
 const authConfig = {
   trustHost: true,
   providers: [

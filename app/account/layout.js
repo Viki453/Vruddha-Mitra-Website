@@ -16,9 +16,10 @@ export default function Layout({ children }) {
   return (
     <div className="flex min-h-screen w-full relative">
       <div
-        className={`fixed inset-y-0 left-0 z-40 w-64 transform transition-transform duration-200 ease-in-out bg-base-200 p-4 mt-10
-          ${isOpen ? "translate-x-0" : "-translate-x-full"} 
-          lg:relative lg:translate-x-0`}
+        className={`fixed inset-y-0 left-0 z-20 w-64 transform bg-base-200 p-4 pt-25
+      transition-transform duration-200 ease-in-out
+      ${isOpen ? "translate-x-0" : "-translate-x-full"}
+      lg:relative lg:translate-x-0`}
       >
         <Sidebar />
       </div>
@@ -30,7 +31,10 @@ export default function Layout({ children }) {
         />
       )}
 
-      <div className="flex-1 flex flex-col">
+      <div
+        className="flex-1 flex flex-col pt-20 transition-all duration-300 ease-in-out
+      w-full lg:pl-64"
+      >
         <button
           className="lg:hidden p-2 bg-base-200 shadow-md m-4 w-max rounded z-10"
           onClick={() => setIsOpen(!isOpen)}
