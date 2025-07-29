@@ -1,4 +1,3 @@
-// app/layout.js
 import Footer from "./_components/Footer";
 import Navbar from "./_components/Navbar";
 import { ReservationProvider } from "./_components/ReservationContext";

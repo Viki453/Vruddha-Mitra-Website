@@ -52,7 +52,6 @@ async function page({ params }) {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
-        {/* Image */}
         <div className="relative h-72 sm:h-[350px] w-full col-span-2">
           <Image
             src={vData.image}
@@ -63,7 +62,6 @@ async function page({ params }) {
           />
         </div>
 
-        {/* Info */}
         <div className="col-span-3 space-y-4">
           <div className="flex flex-wrap gap-6 items-center font-semibold">
             <div>
