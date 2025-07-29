@@ -2,18 +2,17 @@ import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import { SupabaseAdapter } from "@auth/supabase-adapter";
 import { createAccount, getAccount } from "./data-service";
+// import dotenv from "dotenv";
+// dotenv.config();
 
 const authConfig = {
+  trustHost: true,
   providers: [
     Google({
       clientId: process.env.AUTH_GOOGLE_ID,
       clientSecret: process.env.AUTH_GOOGLE_SECRET,
     }),
   ],
-  adapter: SupabaseAdapter({
-    url: process.env.SUPABASE_URL,
-    secret: process.env.SUPABASE_KEY,
-  }),
   callbacks: {
     authorized({ auth, request }) {
       return !!auth?.user;

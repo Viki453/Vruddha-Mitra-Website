@@ -24,7 +24,7 @@ async function Footer() {
         </li>
         <li>
           <Link
-            href={session.user ? "/account" : "/login"}
+            href={session?.user ? "/account" : "/login"}
             className="hover:underline"
           >
             Be a VruddhaMitra

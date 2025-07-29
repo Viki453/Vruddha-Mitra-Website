@@ -10,7 +10,11 @@ async function Navbar() {
   return (
     <div className=" mx-auto w-full fixed flex justify-between p-5 m-3 z-30 ">
       <div className="w-auto flex flex-row items-center gap-4 p-2 rounded-full backdrop-blur-sm shadow-lg border border-accent px-3 ">
-        <Image src={icon} className="w-10 h-10 aspect-square rounded-full" />
+        <Image
+          src={icon}
+          className="w-10 h-10 aspect-square rounded-full"
+          alt={"Happy Vruddha Mitra Experience"}
+        />
         <Link href="/" className="font-bold whitespace-nowrap text-lg">
           Vruddha Mitra
         </Link>
