@@ -1,10 +1,10 @@
 import NextAuth from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
+import Google from "next-auth/providers/google";
 import { createAccount, getAccount } from "./data-service";
 
 const authConfig = {
   providers: [
-    GoogleProvider({
+    Google({
       clientId: process.env.AUTH_GOOGLE_ID,
       clientSecret: process.env.AUTH_GOOGLE_SECRET,
     }),
@@ -13,23 +13,24 @@ const authConfig = {
     authorized({ auth, request }) {
       const url = request.nextUrl;
 
-      // Allow internal Next.js routes (favicon, assets)
+      // Allow internal assets and login route without auth
       if (
         url.pathname.startsWith("/_next") ||
-        url.pathname.startsWith("/favicon.ico")
+        url.pathname.startsWith("/favicon.ico") ||
+        url.pathname === "/login"
       ) {
         return true;
       }
 
-      // Block access if no authenticated user
+      // Safely check if user is authenticated
       return !!auth?.user;
     },
 
     async signIn({ user }) {
       try {
         const existingAccount = await getAccount(user.email);
+        const [firstName, lastName] = user.name.split(" ");
         if (!existingAccount) {
-          const [firstName, lastName = ""] = user.name.split(" ");
           await createAccount({
             emailId: user.email,
             firstName,
@@ -37,8 +38,8 @@ const authConfig = {
           });
         }
         return true;
-      } catch (error) {
-        console.error("Sign-in error:", error);
+      } catch (err) {
+        console.error("signIn error:", err);
         return false;
       }
     },
@@ -46,11 +47,13 @@ const authConfig = {
     async session({ session }) {
       try {
         const account = await getAccount(session.user.email);
-        session.user.accountId = account?.id || null;
-        session.user.accountAvatar = account?.avatar || null;
+        if (account) {
+          session.user.accountId = account.id;
+          session.user.accountAvatar = account.avatar;
+        }
         return session;
-      } catch (error) {
-        console.error("Session callback error:", error);
+      } catch (err) {
+        console.error("session error:", err);
         return session;
       }
     },
