@@ -6,7 +6,7 @@ export default async function Page() {
 
   return (
     <section className="space-y-6">
-      <h1 className="text-4xl font-bold text-primary">Welcome, {firstName}</h1>
+      <h1 className="text-4xl font-bold y">Welcome, {firstName}</h1>
 
       <div className="bg-base-200 p-6 sm:p-10 rounded-xl shadow-md text-base leading-relaxed">
         <p className="mb-4">
