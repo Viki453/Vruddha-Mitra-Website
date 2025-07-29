@@ -65,8 +65,9 @@ Edit
 /public             → Static assets
 /styles             → Tailwind CSS configs
 .env.local          → Environment variables
-📸 Screenshots
-(Add screenshots of elder profile cards, visit booking interface, and dashboard here)
+
+🔗 Link
+https://vruddha-mitra-website.vercel.app/
 
 🙏 Acknowledgements
 Supabase – for backend and database
