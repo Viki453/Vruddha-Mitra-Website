@@ -67,7 +67,7 @@ Edit
 .env.local          → Environment variables
 
 🔗 Link
-https://vruddha-mitra-website.vercel.app/
+(https://vruddha-mitra-website.vercel.app/)
 
 🙏 Acknowledgements
 Supabase – for backend and database
